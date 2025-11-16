@@ -29,3 +29,13 @@ IN CASE OF SET BIT- we use bitwise OR operand
 the operator checks each bit position one by one:
 - wherever the mask has 1, the result is forced to 1
 - wherever the mask has 0, number's bit stays
+
+IN CASE OF CLEAR BIT - we use bitwise AND with bitwise NOT operand
+- to forcefully make a bit 0 we have to do :
+- we do NOT of bit mask where target pos becomes 0 and everywhere else is 1
+- then we AND  the number with a mask 
+- we do ~(bitmask) because AND with 0 results to 0 that's how we cleared the bit.
+
+IN CASE OF UPDATE BIT -
+- If want to update bit to 1, then we will use set bit operation (BM | NUM)
+- If want to update bit to 0, then we will use clear bit operation (first NOT of BM, then num & BM)
