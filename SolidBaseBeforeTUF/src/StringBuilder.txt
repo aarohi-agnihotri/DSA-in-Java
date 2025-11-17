@@ -1,0 +1,27 @@
+Why stringBuilder is needed:
+- Strings in java are immutable -> once created , they cannot be changed.
+- Any modification (add, delete, update) creates a new string object in memory.
+- So process is time-consuming and inefficient for large programs or when many operations are performed.
+
+- Example-
+- String str = "A";
+- str = str + "B"; //  creates new string "AB"
+- str = str + "C"; //  creates new string "ABC"
+- str = str + "D"; //  creates new string "ABCD"
+- str = str + "E"; //  creates new string "ABCDE"
+
+So in above example, what happening is-
+'str' is in stack memory.
+The actual string objects 'A', 'AB' etc. are in heap memory.
+Each modification creates a new heap object, and the stack reference is updated to point to it. 
+Like whenever there is modification in string object, the old one becomes unreferenced and eligible for garbage collector.
+
+Step 1: "A" is created in memory, str points to it.
+Step 2: "AB" is created as new object, str now points to "AB". The old "A" object is discarded.
+Step 3. "ABC" is created. Again the new object replaces the old one.
+Step 4: "ABCD" created, same process repeats.
+Step 5: "ABCDE" is created.
+So each concatenation does not change the old string, instead, it created the brand new object and reassign the reference.
+
+To solve this issue: StringBuilder allows in-place modifications(no new object creation.) 
+Much faster for repeated operations like append, delete, insert.
