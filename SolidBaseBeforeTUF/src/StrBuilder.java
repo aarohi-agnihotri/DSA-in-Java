@@ -48,16 +48,25 @@ class StrBuilder{
         str.reverse();
         System.out.println(str); 
 
-        // 2nd method, half loop [more efficient than 3rd one]
-        StringBuilder str3 = new StringBuilder("swift");
-        for(int i=0; i< str3.length()/2; i++){
-            System.out.print(); 
+        // 2nd method, swapping characters from both ends
+        StringBuilder sbb = new StringBuilder("swift");
+        for(int i=0; i< sbb.length()/2; i++){
+            int front = i;
+            int back = sbb.length() - 1 - i;
+            char frontChar = sbb.charAt(front);
+            char backChar = sbb.charAt(back);
+
+            sbb.setCharAt(front, backChar);
+            sbb.setCharAt(back, frontChar);
         }
+        System.out.println(sbb); 
 
         // 3rd method, loop backward and print characters  [beginner, not recommend]
-        StringBuilder str2 = new StringBuilder("cindrella");
-        for(int i=str2.length()-1 ; i>=0 ; i--){
-            System.out.print(str2.charAt(i)); 
+        StringBuilder str3 = new StringBuilder("cindrella");
+        for(int i=str3.length()-1 ; i>=0 ; i--){
+            System.out.print(str3.charAt(i)); 
         }
+
+        // We cannot use parsing methods like we did in case of string, we can only convert stringbuilder to string using toString method.
     }
 }
