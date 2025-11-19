@@ -1,0 +1,37 @@
+Arithmetic Operators - 
++, -, *, /, %
+
+Assignment Operators -
+=, +=, -=, *=, /=
+
+Logical Operators -
+&&, ||, ! (flips true <-> false)
+
+Relational Operators -
+==, !=, >=, <=, <, >
+
+Post increment- a++
+Pre increment- ++a
+Post decrement- a--
+Pre decrement- --a
+
+Bitwise Operators-
+& - binary AND
+| - binary OR
+^ - binary XOR
+~ - binary one's complement
+<< - binary left shift
+>> - binary right shift
+
+Suppose, there is variable a and b,
+AND - if both value of a and b is 1 then result will be 1 otherwise 0 always
+OR - if either value of a or b is 1 then result will be 1 otherwise 0 always
+XOR - similar values = false or , different values = true
+one's complement - 1 -> 0 or 0 -> 1
+
+left shift -  number operator position
+               0101     <<       1
+                = 1010 
+right shift -  number operator position
+               0101     >>       1
+                = 0010 
