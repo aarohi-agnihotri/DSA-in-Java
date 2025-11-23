@@ -1,0 +1,184 @@
+1️⃣RECURSION
+
+A method calls itself until it reaches a base condition.
+If u don't have a proper base condition -> infinite error -> stackOverflowError
+It needs two things -> base case (when to stop) and recursive case (when to call the function again with a smaller/simple input)
+
+2️⃣MATHEMATICAL RECURSION EXAMPLE where a function repeatedly applied to itself- f(x) = x² is given, then f(f(x)) = f(x²) = (x²)² = x⁴ And f(f(f(x))) = f(x⁴) = (x⁴)² = x⁸
+So recursive pattern => f¹(x) = x², f²(x) = x⁴, f³(x) = x⁸, f⁴(x) = x¹⁶  ==>  fⁿ(x) = x^(2ⁿ)
+
+3️⃣WHAT HAPPENS IN MEMORY DURING RECURSION-
+
+Java uses the call stack (a part of JVM memory).
+Every time you call a method — recursive or not — Java creates a stack frame.
+A stack frame contains:
+function parameters
+local variables
+return address (where to continue after the call returns)
+
+static void printNum(int n){
+        if(n == 0)
+        return;
+        System.out.println(n);
+        printNum(n-1);
+    }
+
+When the program starts, the main func gets a stack frame.
+from main, we call printNum(5)
+Each call creates a new stack frame with its own copy of n
+Call sequence- 
+printNum(5)
+printNum(4)
+printNum(3)
+printNum(2)
+printNum(1)
+printNum(0)
+
+When printNum(0) runs, the base condition got true, so it returns immediately.
+Now the stack starts unwinding : (unwinding means returning back through the recursive calls in reverse order and removing each stack frame one by one)
+
+printNum(0) frame removed
+control goes back to the previous frame (printNum(1)).
+Because there is nothing after printNum(n - 1); each frame finishes immediately after the recursive call returns → printNum(1) frame removed
+returns to printNum(2)
+again no code → frame removed
+same process until printNum(5) is removed
+control returns to main, which also finishes and its frame is removed
+
+Important points - 
+Frames are deleted in reverse order (LIFO)
+each recursive call gets its own memory. Parameters and locals do not overwrite previous calls.
+Iteration does not create new frames; it reuses the same variable
+If we call printNum(5), total frames created = 6 (calls) + 1 (main) = 7
+If recursion goes too deep → StackOverflowError. Because stack memory is limited.
+Base case stops further frame creation This prevents infinite recursion.
+
+Think of recursion as:
+Piling plates (stack frames)
+Base case = “stop adding plates”
+Unwinding = removing plates from top one by one
+
+4️⃣TAIL RECURSION VS NORMAL RECURSION
+
+Normal recursion -> something is left after the recursive call returns.
+because of that , the current stack frame can't be removed, it has to wait. 
+like in factorial program - because every call still needs to multiply after the deeper call comes back
+result -> stack grows, more memory, potential overflow for large input.
+
+Tail recursion -> In tail recursion, the recursive call is the LAST thing that happens.
+Nothing is left after it.
+So in some languages, compiler can optimize it by not growing the stack.
+Java does NOT optimize this.
+Don’t fool yourself — tail recursion in Java is mostly useless for performance.
+Clean example:
+int fact(int n, int acc) {
+    if (n == 0) return acc;
+    return fact(n - 1, acc * n);   // last action → tail recursive
+}
+
+Here:
+No pending multiplication
+No extra work after returning
+But again: Java will not optimize it, so stack depth is same.
+
+5️⃣WHEN NOT TO USE RECURSION
+
+A lot of beginners force recursion everywhere because it “looks smart”. That’s dumb. Don’t use recursion when:
+
+The problem grows too deep → stack overflow risk
+Example: calculating Fibonacci recursively for n = 50+
+The call depth becomes huge and your program dies.
+
+A simple loop can do it faster and clearer
+If the iterative version is cleaner and more efficient, use it.
+Example: sum of array, find max element, reverse an array
+These do not need recursion. Using recursion here is you flexing with no muscles.
+
+When time complexity becomes worse
+Example: fib(n) // exponential time O(2^n)
+That’s terrible and pointless when DP or iteration can do it in O(n).
+
+If you’re not shrinking the input each time, recursion becomes a disaster.
+
+6️⃣HOW TO MENTALLY DRY-RUN RECURSION
+
+Step 1: Look for the base case first.
+If base case says “stop at n == 0”, then you know when the chain will stop.
+
+Step 2: Track only the values being passed, not the whole stack.
+Don’t draw call frames. Just write the function calls.
+Example:
+print(3) calls print(2)
+print(2) calls print(1)
+print(1) calls print(0)
+print(0) returns
+That's enough to understand the flow.
+
+Step 3: Understand the direction
+Calls happen forward (going deeper)
+Returns happen backward (unwinding)
+
+Step 4: Check what happens before & after the recursive call
+Example:
+void fun(int n) {
+    if (n == 0) return;
+    System.out.println("A " + n);
+    fun(n - 1);
+    System.out.println("B " + n);
+}
+
+Dry run mentally: call fun(3)
+
+What actually prints?
+We will break it into two parts:
+1️⃣ Forward phase (going deeper in recursion)
+This prints the A statements.
+2️⃣ Backward phase (returning back)
+This prints the B statements.
+
+Forward Phase (Before recursive call)
+Statements BEFORE the recursive call execute immediately.
+
+So for:
+
+fun(3):
+  print "A 3"
+  call fun(2)
+
+fun(2):
+  print "A 2"
+  call fun(1)
+
+fun(1):
+  print "A 1"
+  call fun(0)
+
+fun(0) hits base case → stops.
+
+So the prints so far:
+A 3
+A 2
+A 1
+
+Each A is printed while going DOWN the recursion.
+
+✦ Backward Phase (After recursive call)
+Now recursion returns back in reverse order:
+When fun(0) returns → we go back to fun(1).
+Inside fun(1), after fun(0), we have:
+System.out.println("B " + 1);
+
+So: prints
+B 1
+Then return to fun(2): prints
+B 2
+Then return to fun(3): prints
+B 3
+
+Final Output-
+A 3
+A 2
+A 1
+B 1
+B 2
+B 3
