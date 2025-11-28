@@ -1,0 +1,44 @@
+YOU HAVE:
+3 rods: A (source), B (helper), C (destination)
+n disks on rod A, biggest at bottom.
+
+Goal: Move all disks from A → C following rules:
+Only one disk at a time.
+Never put a bigger disk on a smaller one.
+Only top disk can be moved.
+
+THE  LOGIC 
+If you have n disks, what do you actually need to do?
+
+Step 1
+Move n−1 disks from A → B, using C as helper.
+Why?
+Because to move the biggest disk (disk n), all smaller disks must get out of the way.
+
+Step 2
+Move disk n from A → C.
+That’s always just 1 move.
+
+Step 3
+Move n−1 disks from B → C, using A as helper.
+That's literally it.
+Tower of Hanoi is just these 3 steps repeated recursively.
+
+WHY is the call toh(n-1, A, C, B)?
+Before you move the biggest disk from A → C,
+you MUST move the top n−1 disks to B.
+That means:
+Source = A
+Destination = B
+Helper = C
+
+WHY is the second recursive call toh(n-1, B, A, C)?
+After the big disk is moved from A → C:
+The n−1 small disks are sitting on B
+They need to go to C
+They must use A as helper
+That means:
+Source = B
+Helper = A
+Destination = C
+
